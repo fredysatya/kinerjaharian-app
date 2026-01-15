@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kinerja KPU Bali</title>
+    
+    <link rel="manifest" href="manifest.json">
+    
+    <meta name="theme-color" content="#8B1E1E">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #8B1E1E; }
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="https://script.google.com/macros/s/AKfycbxB0vChSReyLBr0kwGuXMxoHkNoj6lWMnbofvLC3NyfN7HZVGTDgYVGgboi87Js9N_f/exec"></iframe>
+
+    <script>
+        // Mendaftarkan Service Worker agar tombol Install muncul
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('SW Registered!', reg))
+            .catch(err => console.log('SW Error:', err));
+        }
+    </script>
+</body>
+</html>
