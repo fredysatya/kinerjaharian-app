@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'kpu-static-v3';
+const STATIC_CACHE = 'kpu-static-v4';
 
 const STATIC_ASSETS = [
   '/',
@@ -27,4 +27,23 @@ self.addEventListener('activate', (e) => {
 });
 
 // FETCH
-self.addEventListen
+self.addEventListener('fetch', (e) => {
+  const url = new URL(e.request.url);
+
+  // Jangan cache Google Apps Script
+  if (url.origin.includes('script.google.com')) {
+    return e.respondWith(fetch(e.request));
+  }
+
+  // HTML → network first
+  if (e.request.mode === 'navigate') {
+    return e.respondWith(
+      fetch(e.request).catch(() => caches.match('/index.html'))
+    );
+  }
+
+  // Asset → cache first
+  e.respondWith(
+    caches.match(e.request).then(res => res || fetch(e.request))
+  );
+});
