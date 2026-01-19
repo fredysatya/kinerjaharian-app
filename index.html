@@ -1,35 +1,72 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kinerja KPU Bali</title>
-    
-    <link rel="manifest" href="manifest.json">
-    
-    <meta name="theme-color" content="#8B1E1E">
-    <link rel="apple-touch-icon" href="icon-192.png">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #8B1E1E; }
-        iframe {
-            border: none;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-    </style>
+  <title>Kinerja KPU Bali</title>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#8B1E1E">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #8B1E1E;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    #loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <iframe src="https://script.google.com/macros/s/AKfycbwA2INw8FgZ2FHWW6xiwVT-PQmaXrf9t8w2Nv6l24NAGVbzGqvc7foGI9WI996QQPpV/exec"></iframe>
 
-    <script>
-        // Mendaftarkan Service Worker agar tombol Install muncul
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('SW Registered!', reg))
-            .catch(err => console.log('SW Error:', err));
-        }
-    </script>
+  <!-- APP SHELL / LOADING -->
+  <div id="loader">Memuat aplikasi…</div>
+
+  <!-- GAS APP -->
+  <iframe
+    id="appFrame"
+    loading="lazy"
+    src="https://script.google.com/macros/s/AKfycbwA2INw8FgZ2FHWW6xiwVT-PQmaXrf9t8w2Nv6l24NAGVbzGqvc7foGI9WI996QQPpV/exec">
+  </iframe>
+
+  <script>
+    const frame = document.getElementById('appFrame');
+    const loader = document.getElementById('loader');
+
+    frame.addEventListener('load', () => {
+      loader.style.display = 'none';
+      frame.style.display = 'block';
+    });
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker registered'))
+        .catch(err => console.error('SW error', err));
+    }
+  </script>
+
 </body>
 </html>
