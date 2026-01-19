@@ -1,22 +1,47 @@
 {
-  "name": "Kinerja Harian KPU",
+  "name": "Kinerja Harian KPU Provinsi Bali",
   "short_name": "Kinerja KPU",
-  "start_url": "./",
+  "description": "Sistem Informasi Pencatatan Kinerja Harian Pegawai KPU Provinsi Bali",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f4f4f4",
+  "orientation": "portrait",
+  "background_color": "#8B1E1E",
   "theme_color": "#8B1E1E",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["productivity", "business"],
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "label": "Tampilan Utama Kinerja KPU"
     }
   ]
 }
