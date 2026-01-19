@@ -1,15 +1,11 @@
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open('kpu-store').then((cache) => cache.addAll([
-      'index.html',
-      'manifest.json',
-      // Masukkan nama file icon jika sudah upload
-    ]))
-  );
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((response) => response || fetch(e.request))
-  );
+  e.respondWith(fetch(e.request));
 });
