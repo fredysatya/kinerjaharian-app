@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>Kinerja KPU Bali</title>
 
   <link rel="manifest" href="manifest.json">
@@ -10,22 +11,45 @@
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Kinerja KPU">
+  <link rel="apple-touch-startup-image" href="icon-512.png">
   <link rel="apple-touch-icon" href="icon-192.png">
 
   <style>
+    /* Tambahkan/Ganti di sini */
     html, body {
-      margin: 0; padding: 0; height: 100%;
-      background: #8B1E1E; overflow: hidden;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      /* Mencegah scroll ganda di luar iframe agar HP tidak bingung */
+      overflow: hidden; 
+      background: #8B1E1E;
       font-family: system-ui, -apple-system, sans-serif;
     }
 
-    #loader {
-      position: fixed; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; flex-direction: column; z-index: 999;
+    #appFrame {
+      border: none;
+      width: 100%;
+      /* Menggunakan 100dvh agar akurat di browser HP yang punya toolbar (Chrome/Safari) */
+      height: 100dvh; 
+      display: none; /* Akan dimunculkan oleh script saat load selesai */
+      /* Memastikan input sentuh diteruskan ke dalam iframe */
+      touch-action: auto; 
     }
 
-    /* Spinner sederhana agar user tahu app tidak freeze */
+    #loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 16px;
+      z-index: 999;
+    }
+
     .spinner {
       width: 40px; height: 40px;
       border: 4px solid rgba(255,255,255,0.3);
@@ -34,20 +58,7 @@
       animation: spin 1s linear infinite;
       margin-bottom: 15px;
     }
-
     @keyframes spin { 100% { transform: rotate(360deg); } }
-
-    iframe {
-      border: none; width: 100%; height: 100%;
-      display: none; /* Disembunyikan sampai loading selesai */
-    }
-
-    #btnManual {
-      display: none; margin-top: 20px;
-      padding: 10px 20px; background: white; color: #8B1E1E;
-      text-decoration: none; border-radius: 25px; font-weight: bold;
-      font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
   </style>
 </head>
 
@@ -55,8 +66,7 @@
 
   <div id="loader">
     <div class="spinner"></div>
-    <div id="msg">Memuat aplikasi…</div>
-    <a id="btnManual" href="https://script.google.com/macros/s/AKfycbx128KfwVsD94efA9tOfbj-CPE7CYS2O1I9VKXn9JziiUgPwGl7vZWOkpiih7-2MGQm/exec" target="_top">Buka Aplikasi Langsung</a>
+    <div>Memuat aplikasi…</div>
   </div>
 
   <iframe
@@ -67,23 +77,12 @@
   <script>
     const frame = document.getElementById('appFrame');
     const loader = document.getElementById('loader');
-    const btnManual = document.getElementById('btnManual');
-    const msg = document.getElementById('msg');
 
-    // 1. Timeout Fallback: Jika 7 detik belum load, munculkan tombol manual
-    const timeout = setTimeout(() => {
-      btnManual.style.display = 'block';
-      msg.innerHTML = "Koneksi lambat atau diblokir browser...";
-    }, 7000);
-
-    // 2. Event saat iframe selesai load
-    frame.onload = function() {
-      clearTimeout(timeout); // Batalkan timeout
+    frame.addEventListener('load', () => {
       loader.style.display = 'none';
       frame.style.display = 'block';
-    };
+    });
 
-    // 3. Register Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(err => console.error('SW error', err));
     }
