@@ -16,28 +16,41 @@
   <link rel="apple-touch-icon" href="icon-192.png">
 
   <style>
-    /* Tambahkan/Ganti di sini */
+    /* =========================================
+       UPDATE CSS UNTUK MENGATASI FREEZE/SCROLL
+       ========================================= */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       width: 100%;
-      /* Mencegah scroll ganda di luar iframe agar HP tidak bingung */
-      overflow: hidden; 
       background: #8B1E1E;
       font-family: system-ui, -apple-system, sans-serif;
+      
+      /* Mencegah scroll pada body utama (GitHub), 
+         biarkan iframe yang melakukan scroll */
+      overflow: hidden; 
+      
+      /* Mencegah efek 'tarik ke bawah' (pull-to-refresh) Chrome 
+         yang sering mengganggu aplikasi web */
+      overscroll-behavior: none; 
     }
 
     #appFrame {
-      border: none;
+      position: absolute; /* Pastikan iframe mengisi layar penuh */
+      top: 0;
+      left: 0;
       width: 100%;
-      /* Menggunakan 100dvh agar akurat di browser HP yang punya toolbar (Chrome/Safari) */
-      height: 100dvh; 
-      display: none; /* Akan dimunculkan oleh script saat load selesai */
-      /* Memastikan input sentuh diteruskan ke dalam iframe */
-      touch-action: auto; 
+      height: 100%;
+      border: none;
+      display: none; 
+      
+      /* KUNCI PERBAIKAN SCROLL DI HP: */
+      overflow-y: auto; 
+      -webkit-overflow-scrolling: touch; /* Wajib untuk iPhone/iOS agar licin */
     }
 
+    /* Loader Style (Tetap sama) */
     #loader {
       position: fixed;
       inset: 0;
@@ -71,6 +84,7 @@
 
   <iframe
     id="appFrame"
+    scrolling="yes"
     src="https://script.google.com/macros/s/AKfycbw3N8TP58F8TkEY-aF9v-94RZxhN9_cz-J7tleWoJ7YVLFFWRWoGITDA2lKsNuLgzLw/exec">
   </iframe>
 
